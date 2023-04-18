@@ -1,7 +1,7 @@
 package org.example.philosopher;
 
 
-import org.example.parametr.Parameter;
+import org.example.parameter.Parameter;
 
 /*
  * Класс философ реализует интерфейс Runnable, имеет поля левая и правая вилка,

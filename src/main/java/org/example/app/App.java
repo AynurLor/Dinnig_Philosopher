@@ -1,6 +1,6 @@
 package org.example.app;
 
-import org.example.parametr.Parameter;
+import org.example.parameter.Parameter;
 import org.example.philosopher.Philosopher;
 
 /**

@@ -1,4 +1,4 @@
-package org.example.parametr;
+package org.example.parameter;
 
 public class Parameter {
     private Integer number_of_philosophers = 5,
