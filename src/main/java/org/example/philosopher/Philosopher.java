@@ -1,7 +1,7 @@
 package org.example.philosopher;
 
-
 import org.example.parameter.Parameter;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /*
  * Класс философ реализует интерфейс Runnable, имеет поля левая и правая вилка,
@@ -13,6 +13,8 @@ import org.example.parameter.Parameter;
 public class Philosopher implements Runnable{
     private Object left_fork;
     private Object right_fork;
+    private volatile long time_hunger;
+    private AtomicInteger counter;
 
     private Parameter parameter_philosopher;
 
@@ -20,6 +22,7 @@ public class Philosopher implements Runnable{
         parameter_philosopher = parameter;
         this.left_fork = left_fork;
         this.right_fork = right_fork;
+        counter = new AtomicInteger(parameter_philosopher.getNumber_of_eating());
     }
 
 
@@ -47,15 +50,23 @@ public class Philosopher implements Runnable{
         try {
             while (true) {
                 doAction("Thinking");
+                time_hunger = System.currentTimeMillis();
                 synchronized (left_fork) {
                     doAction("Take left fork");
                     synchronized (right_fork) {
                         doAction("Take right fork");
+                        check_hunger();
                         doAction("Eating");
                         doAction("Put right fork");
                     }
                     doAction("Put left fork");
                     doAction("Sleep");
+                }
+                if (counter.decrementAndGet() == 0) {
+                    System.out.println(System.currentTimeMillis() + " " +
+                                       Thread.currentThread().getName() +
+                                       " finish");
+                    return;
                 }
             }
         } catch (InterruptedException e) {
@@ -63,5 +74,16 @@ public class Philosopher implements Runnable{
             return;
         }
 
+    }
+    // проверка того, сколько времени философ провел без еды
+    private void check_hunger() {
+        if (System.currentTimeMillis() - time_hunger >
+                parameter_philosopher.getTime_to_die()) {
+            System.out.println(System.currentTimeMillis());
+            System.out.println(time_hunger);
+            System.out.println();
+            System.err.println(Thread.currentThread().getName() + " is dead");
+            System.exit(-1);
+        }
     }
 }

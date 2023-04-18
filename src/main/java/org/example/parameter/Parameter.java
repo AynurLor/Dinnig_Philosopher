@@ -4,9 +4,33 @@ public class Parameter {
     private Integer number_of_philosophers = 5,
                     number_of_fork = 5;
     private Integer time_to_die = 100,
-                    time_to_eat = 100,
-                    time_to_sleep = 100;
+    time_to_eat = 100,
+    time_to_sleep = 100;
     private Integer number_of_eating = 15;
+
+    public Parameter(String[] args) {
+        try {
+
+            this.number_of_philosophers = Integer.parseInt(args[0]);
+            this.number_of_fork = Integer.parseInt(args[1]);
+            this.time_to_die = Integer.parseInt(args[2]);
+            this.time_to_eat = Integer.parseInt(args[3]);
+            this.time_to_sleep = Integer.parseInt(args[4]);
+            this.number_of_eating = Integer.parseInt(args[5]);
+        } catch (NumberFormatException e) {
+            System.err.println("Args is not number");
+            System.exit(-1);
+        }
+    }
+
+    public Parameter(Parameter parameter) {
+        this.number_of_philosophers = parameter.number_of_philosophers;
+        this.number_of_fork = parameter.number_of_fork;
+        this.time_to_die = parameter.time_to_die;
+        this.time_to_eat = parameter.time_to_eat;
+        this.time_to_sleep = parameter.time_to_sleep;
+        this.number_of_eating = parameter.number_of_eating;
+    }
 
     @Override
     public String toString() {
@@ -42,20 +66,5 @@ public class Parameter {
 
     public Integer getNumber_of_eating() {
         return number_of_eating;
-    }
-
-    public Parameter(String[] args) {
-        try {
-
-            this.number_of_philosophers = Integer.parseInt(args[0]);
-            this.number_of_fork = Integer.parseInt(args[1]);
-            this.time_to_die = Integer.parseInt(args[2]);
-            this.time_to_eat = Integer.parseInt(args[3]);
-            this.time_to_sleep = Integer.parseInt(args[4]);
-            this.number_of_eating = Integer.parseInt(args[5]);
-        } catch (NumberFormatException e) {
-            System.err.println("Args is not number");
-            System.exit(-1);
-        }
     }
 }
